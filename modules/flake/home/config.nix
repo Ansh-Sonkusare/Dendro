@@ -22,6 +22,7 @@
         ripgrep
         fira-code
         fira-code-symbols
+        nushell
       ];
     };
 
@@ -35,19 +36,23 @@
 
       programs.git = {
         enable = true;
-        userName = "Ansh-Sonkusare";
-        userEmail = "sonkusare.satish12@gmail.com";
-        aliases = {
-          ci = "commit";
-          co = "checkout";
-          s = "status";
+        settings = {
+          user.name = "Ansh-Sonkusare";
+          user.email = "sonkusare.satish12@gmail.com";
+          alias = {
+            ci = "commit";
+            aa = "add .";
+            co = "checkout";
+            s = "status";
+          };
         };
       };
 
       programs.zsh = {
         enable = true;
         autocd = true;
-        enableAutosuggestions = true;
+        autosuggestion.enable = true;
+        # enableAutosuggestions = true;
         enableCompletion = true;
         defaultKeymap = "emacs";
         history.size = 10000;

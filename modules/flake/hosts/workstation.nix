@@ -25,7 +25,7 @@ in {
     nix.settings.experimental-features = ["nix-command" "flakes"];
     services.vscode-server.enable = true;
 
-    system.stateVersion = "25.11";
+    system.stateVersion = "26.05";
 
     environment.systemPackages = [
       pkgs.wget
@@ -125,7 +125,7 @@ in {
         home = {
           username = workstationUsername;
           homeDirectory = workstationHomeDirectory;
-          stateVersion = "25.11";
+          stateVersion = "26.05";
           sessionPath = ["$HOME/.local/bin"];
         };
 
