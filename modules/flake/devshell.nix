@@ -12,6 +12,33 @@
           }
         ];
       };
+      typescript = {
+        packages = with pkgs; [
+          nodejs
+          bun
+          pnpm
+          "vscode-langservers-extracted"
+          eslint
+          eslint_d
+          typescript
+          prettierd
+        ];
+
+        bash = {
+          interactive = ''
+            if [ -z "$IN_ZSH" ]; then
+              export IN_ZSH=1
+              exec zsh
+            fi
+          '';
+        };
+        env = [
+          {
+            name = "NVIM_APPNAME";
+            value = "nvim-chad";
+          }
+        ];
+      };
     };
   };
 }
