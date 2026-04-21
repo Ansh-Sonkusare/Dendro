@@ -66,6 +66,7 @@ in {
     system.keyboard.enableKeyMapping = false;
     system.keyboard.remapCapsLockToEscape = false;
     security.pam.services.sudo_local.touchIdAuth = true;
+
     home-manager = {
       useGlobalPkgs = true;
       useUserPackages = true;
