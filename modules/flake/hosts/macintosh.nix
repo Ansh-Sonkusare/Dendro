@@ -28,9 +28,10 @@ in {
     programs.zsh.enable = true;
 
     # Auto upgrade nix package and the daemon service.
-    # services.nix-daemon.enable = true;
-    nix.enable = false;
-
+    nix.enable = true;
+    nix.linux-builder.enable = true;
+    # In your homeserver nixos config
+    nix.settings.trusted-users = ["root" "teak" "anshsonkusare"];
     users.users.anshsonkusare = {
       name = username;
       home = homeDirectory;
@@ -51,7 +52,7 @@ in {
     programs.nix-index.enable = true;
 
     # Fonts
-    ids.gids.nixbld = 30000;
+    ids.gids.nixbld = 350;
     system.primaryUser = "anshsonkusare";
     homebrew.enable = true;
 

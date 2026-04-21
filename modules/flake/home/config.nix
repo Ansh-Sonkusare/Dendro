@@ -82,10 +82,15 @@
             };
           }
         ];
+
+        initExtra = ''
+          source ${pkgs.zsh-vi-mode}/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
+
+          source ${pkgs.nix-index}/etc/profile.d/command-not-found.sh
+        '';
         shellAliases = {
           k = "kubectl";
           cd = "z";
-          code = "/mnt/c/Users/sonku/AppData/Local/Programs/Microsoft VS Code/bin/code";
         };
         sessionVariables = {
           NVIM_APPNAME = "nvim-chad";
@@ -170,6 +175,17 @@
       programs.zoxide = {
         enable = true;
       };
+    };
+
+    homeserverHost = {pkgs, ...}: {
+      home.packages = with pkgs; [
+        lemonade
+        cargo
+        nodejs
+        pnpm
+        graphite-cli
+        bun
+      ];
     };
   };
 }
