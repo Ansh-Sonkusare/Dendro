@@ -173,8 +173,7 @@ in {
       };
 
       users.${homeserverUsername} = {
-        imports = baseHomeModules ++ [self.homeModules.homeserverHost];
-
+        imports = baseHomeModules;
         home = {
           username = homeserverUsername;
           homeDirectory = homeserverHomeDirectory;
@@ -187,4 +186,3 @@ in {
     };
   };
 }
-
