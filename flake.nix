@@ -20,17 +20,14 @@
   };
 
   outputs = {self, ...} @ inputs: let
-    importFlakeParts =
-      (import ./modules/flake/lib {inherit self inputs;})
-      .flake
-      .lib
-      .importModulesRecursive; # to avoid recursion, from using self.lib inside flake
+    lib = import ./modules/flake/lib {inherit inputs;};
   in
     inputs.flake-parts.lib.mkFlake {inherit inputs;} {
-      imports =
-        [
-          ./modules/parts.nix # flake-parts systems (else devShells/packages empty)
-        ]
-        ++ importFlakeParts ./modules/flake; # recursively load modules, including nixosConfigurations
+      imports = [
+        ./modules/parts.nix
+        (lib.flake.lib.importModulesRecursive ./modules/flake)
+      ];
+      perSystem = {pkgs, ...}: {
+      };
     };
 }

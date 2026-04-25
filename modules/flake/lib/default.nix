@@ -4,8 +4,6 @@ in {
   flake.lib = {
     hasDefault = dir: builtins.pathExists "${toString dir}/default.nix";
 
-    flatten = attrs: lib.collect (x: !lib.isAttrs x) attrs;
-
     # recursively loads modules, intended for use with flake-parts to load all modules and submodules.
     importModulesRecursive = let
       mapModules = dir: fn:
@@ -25,6 +23,8 @@ in {
 
       flatten = attrs: lib.collect (x: !lib.isAttrs x) attrs;
     in
-      dir: flatten (mapModules dir (x: x));
+      dir: {lib, ...}: {
+        imports = flatten (mapModules dir (x: x));
+      };
   };
 }
