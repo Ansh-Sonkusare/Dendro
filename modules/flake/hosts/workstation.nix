@@ -34,6 +34,7 @@ in {
       pkgs.kubectl
       pkgs.prisma
       pkgs.graphite-cli
+      pkgs.starship
     ];
     nixpkgs.config.allowUnfree = true;
     fonts.packages = with pkgs; [

@@ -23,6 +23,7 @@
         fira-code
         fira-code-symbols
         nushell
+        starship
       ];
     };
 
@@ -84,6 +85,11 @@
         ];
 
         initExtra = ''
+          # Use an explicit Nix store path so prompt init does not depend on per-user profile symlinks.
+          if [ -x "${pkgs.starship}/bin/starship" ]; then
+            eval "$(${pkgs.starship}/bin/starship init zsh)"
+          fi
+
           source ${pkgs.zsh-vi-mode}/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
 
           source ${pkgs.nix-index}/etc/profile.d/command-not-found.sh
@@ -104,6 +110,7 @@
 
       programs.starship = {
         enable = true;
+        enableZshIntegration = false;
         settings = {
           add_newline = false;
 
@@ -111,8 +118,6 @@
             success_symbol = "[➜](bold green)";
             error_symbol = "[➜](bold red)";
           };
-
-          package.disabled = true;
         };
       };
 
