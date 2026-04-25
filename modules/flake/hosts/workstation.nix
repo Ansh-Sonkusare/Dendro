@@ -108,6 +108,7 @@ in {
       isNormalUser = true;
       home = workstationHomeDirectory;
       description = "${workstationUsername} user";
+      shell = pkgs.zsh;
       extraGroups = ["wheel"];
     };
 

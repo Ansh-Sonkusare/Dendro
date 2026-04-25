@@ -14,7 +14,7 @@ in {
           in
             if type == "directory"
             then lib.nameValuePair fileName (mapModules path fn)
-            else if type == "regular" && fileName != "default.nix" && lib.hasSuffix ".nix" fileName
+            else if type == "regular" && lib.hasSuffix ".nix" fileName
             then lib.nameValuePair (lib.removeSuffix ".nix" fileName) (fn path)
             else lib.nameValuePair "" null))
         ];
