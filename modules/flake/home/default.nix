@@ -4,7 +4,7 @@
   ...
 }: let
   inherit (inputs.nixpkgs) lib;
-  u = self.workstationUser;
+  u = self.lib.users.mkUser {name = self.lib.usernames.workstation;};
   current = builtins.tryEval builtins.currentSystem;
   system =
     if current.success
@@ -16,6 +16,28 @@
   };
 in {
   imports = [inputs.home-manager.flakeModules.home-manager];
+
+  flake.homeModules = {
+    packages = import ./packages.nix;
+    programs = import ./programs/default.nix;
+    tmux = import ./tmux.nix;
+    base = {pkgs, ...}: {
+      fonts.fontconfig.enable = true;
+      programs.home-manager.enable = true;
+      services.ssh-agent.enable = true;
+    };
+
+    homeserverHost = {pkgs, ...}: {
+      home.packages = with pkgs; [
+        lemonade
+        cargo
+        nodejs
+        pnpm
+        graphite-cli
+        bun
+      ];
+    };
+  };
 
   flake.homeConfigurations.default = inputs.home-manager.lib.homeManagerConfiguration {
     inherit pkgs;

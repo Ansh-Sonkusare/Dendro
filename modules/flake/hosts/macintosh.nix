@@ -2,17 +2,23 @@
   self,
   inputs,
   ...
-}: let
-  username = "anshsonkusare";
-  homeDirectory = "/Users/${username}";
-in {
+}: {
   flake.darwinModules.macintoshModule = {
     pkgs,
     lib,
     ...
-  }: {
+  }: let
+    user = self.lib.users.mkUser {
+      name = self.lib.usernames.macintosh;
+      system = "darwin";
+    };
+    host = self.lib.hosts.macintosh;
+  in {
     # Nix configuration ------------------------------------------------------------------------------
-    imports = [inputs.home-manager.darwinModules.home-manager];
+    imports = [
+      inputs.home-manager.darwinModules.home-manager
+      inputs.sops-nix.nixosModules.sops
+    ];
     # Enable experimental nix command and flakes
     # nix.package = pkgs.nixUnstable;
     nix.extraOptions =
@@ -30,11 +36,10 @@ in {
     # Auto upgrade nix package and the daemon service.
     nix.enable = true;
     nix.linux-builder.enable = true;
-    # In your homeserver nixos config
-    nix.settings.trusted-users = ["root" "teak" "anshsonkusare"];
+    nix.settings.trusted-users = host.trustedUsers;
     users.users.anshsonkusare = {
-      name = username;
-      home = homeDirectory;
+      name = user.username;
+      home = user.homeDirectory;
     };
     # Apps
     # `home-manager` currently has issues adding them to `~/Applications`
@@ -71,20 +76,24 @@ in {
       useGlobalPkgs = true;
       useUserPackages = true;
 
-      users.${username} = {
+      users.${user.username} = {
         imports = lib.attrValues self.homeModules;
 
         home = {
-          username = username;
-          inherit homeDirectory;
+          username = user.username;
+          homeDirectory = user.homeDirectory;
           stateVersion = "26.05";
           sessionPath = ["$HOME/.local/bin"];
         };
 
         programs.home-manager.enable = true;
-        services.ssh-agent.enable = true;
       };
     };
+
+    sops.defaultSopsFile = ./secrets/secrets.yaml;
+    sops.defaultSopsFormat = "yaml";
+    sops.age.keyFile = "${user.homeDirectory}/.config/sops/age/keys.txt";
+
     # Set state version (required)
     system.stateVersion = 6;
 

@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixos-wsl.url = "github:nix-community/NixOS-WSL";
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
@@ -10,7 +11,7 @@
     flake-parts.url = "github:hercules-ci/flake-parts";
     darwin.url = "github:lnl7/nix-darwin/master";
     darwin.inputs.nixpkgs.follows = "nixpkgs";
-
+    sops-nix.url = "github:Mic92/sops-nix";
     git-hooks.url = "github:cachix/git-hooks.nix";
     devshell.url = "github:numtide/devshell";
     vscode-server.url = "github:nix-community/nixos-vscode-server";

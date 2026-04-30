@@ -2,51 +2,31 @@
   self,
   inputs,
   ...
-}: let
-  workstationUsername = "teak";
-  workstationHomeDirectory = "/home/${workstationUsername}";
-in {
-  flake.workstationUser = {
-    username = workstationUsername;
-    homeDirectory = workstationHomeDirectory;
-  };
-
+}: {
   flake.nixosModules.workstationModules = {
     pkgs,
     lib,
     ...
-  }: {
+  }: let
+    user = self.lib.users.mkUser {name = self.lib.usernames.workstation;};
+    host = self.lib.hosts.workstation;
+    sharedSystemPackages = import ../lib/system-packages.nix {inherit pkgs;};
+  in {
     imports = [
       inputs.home-manager.nixosModules.default
       inputs.vscode-server.nixosModules.default
       inputs.nixos-wsl.nixosModules.default
     ];
 
-    nix.settings.experimental-features = ["nix-command" "flakes"];
     services.vscode-server.enable = true;
 
     system.stateVersion = "26.05";
 
-    environment.systemPackages = [
-      pkgs.wget
-      pkgs.tailscale
-      pkgs.home-manager
-      pkgs.kubectl
+    environment.systemPackages = sharedSystemPackages ++ [
       pkgs.prisma
       pkgs.graphite-cli
     ];
     nixpkgs.config.allowUnfree = true;
-    fonts.packages = with pkgs; [
-      noto-fonts
-      noto-fonts-cjk-sans
-      noto-fonts-color-emoji
-      liberation_ttf
-      fira-code
-      fira-code-symbols
-      mplus-outline-fonts.githubRelease
-      dina-font
-      proggyfonts
-    ];
 
     # Prisma:
     environment.variables = {
@@ -56,7 +36,7 @@ in {
       PRISMA_TMP_DIR = "/tmp/prisma"; # Ensure this directory is writable
     };
 
-    networking.hostName = "nixos";
+    networking.hostName = host.hostname;
     programs.zsh.enable = true;
     programs.nix-ld.enable = true;
 
@@ -91,7 +71,7 @@ in {
       startMenuLaunchers = true;
 
       docker-desktop.enable = false;
-      defaultUser = workstationUsername;
+      defaultUser = user.username;
       extraBin = with pkgs; [
         {src = "${coreutils}/bin/mkdir";}
         {src = "${coreutils}/bin/cat";}
@@ -103,10 +83,10 @@ in {
       ];
     };
 
-    users.users.${workstationUsername} = {
+    users.users.${user.username} = {
       isNormalUser = true;
-      home = workstationHomeDirectory;
-      description = "${workstationUsername} user";
+      home = user.homeDirectory;
+      description = "${user.username} user";
       extraGroups = ["wheel"];
     };
 
@@ -118,19 +98,18 @@ in {
         inherit inputs;
       };
 
-      users.${workstationUsername} = {
+      users.${user.username} = {
         imports =
           lib.attrValues self.homeModules;
 
         home = {
-          username = workstationUsername;
-          homeDirectory = workstationHomeDirectory;
+          username = user.username;
+          homeDirectory = user.homeDirectory;
           stateVersion = "26.05";
           sessionPath = ["$HOME/.local/bin"];
         };
 
         programs.home-manager.enable = true;
-        services.ssh-agent.enable = true;
       };
     };
   };

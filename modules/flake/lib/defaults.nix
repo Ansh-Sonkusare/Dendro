@@ -1,0 +1,3 @@
+{
+  neovimAppName = "nvim-chad";
+}

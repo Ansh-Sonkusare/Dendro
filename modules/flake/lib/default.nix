@@ -1,7 +1,12 @@
 {inputs, ...}: let
   inherit (inputs.nixpkgs) lib;
+  users = import ./users.nix;
+  usernames = import ./usernames.nix;
+  hosts = import ./hosts.nix;
+  defaults = import ./defaults.nix;
 in {
   flake.lib = {
+    inherit users usernames hosts defaults;
     hasDefault = dir: builtins.pathExists "${toString dir}/default.nix";
 
     # recursively loads modules, intended for use with flake-parts to load all modules and submodules.
