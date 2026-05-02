@@ -1,42 +1,43 @@
-{ inputs, self, ... }:
-let
+{
+  inputs,
+  self,
+  ...
+}: let
   inherit (inputs.nixpkgs) lib;
 
   inherit (inputs.darwin.lib) darwinSystem;
   inherit (inputs.nixpkgs.lib) attrValues optionalAttrs;
 
   nushellOverlay = final: prev: {
-    nushell = prev.nushell.overrideAttrs (_: { doCheck = false; });
+    nushell = prev.nushell.overrideAttrs (_: {doCheck = false;});
   };
 
   nixpkgsConfig = {
     config.allowUnfree = true;
-    overlays = [ nushellOverlay self.overlays.default  ];
-
+    overlays = [nushellOverlay self.overlays.default];
   };
 in {
   flake.nixosConfigurations = {
     workstation = lib.nixosSystem {
-      specialArgs = { inherit inputs; };
+      specialArgs = {inherit inputs;};
       system = "x86_64-linux";
-      modules = [ self.nixosModules.workstationModules ];
+      modules = [self.nixosModules.workstationModules];
     };
     homeserver = lib.nixosSystem {
-      specialArgs = { inherit inputs; };
+      specialArgs = {inherit inputs;};
       system = "x86_64-linux";
       modules = [
-        self.nixosModules.homeserverModules
         inputs.disko.nixosModules.disko
         ../../homeserver-disk-config.nix
+        self.nixosModules.homeserverModules
       ];
     };
   };
   flake.darwinConfigurations = {
     macintosh = darwinSystem {
       system = "aarch64-darwin";
-      specialArgs = { inherit inputs; };
-      modules =
-        [ self.darwinModules.macintoshModule { nixpkgs = nixpkgsConfig; } ];
+      specialArgs = {inherit inputs;};
+      modules = [self.darwinModules.macintoshModule {nixpkgs = nixpkgsConfig;}];
     };
   };
 }

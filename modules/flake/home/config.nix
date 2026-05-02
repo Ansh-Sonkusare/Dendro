@@ -84,7 +84,7 @@
           }
         ];
 
-        initExtra = ''
+        initContent = ''
           # Use an explicit Nix store path so prompt init does not depend on per-user profile symlinks.
           if [ -x "${pkgs.starship}/bin/starship" ]; then
             eval "$(${pkgs.starship}/bin/starship init zsh)"
@@ -119,6 +119,8 @@
         };
       };
       programs.neovim = {
+        withRuby = false;
+        withPython3 = false;
         enable = true;
         defaultEditor = true;
       };

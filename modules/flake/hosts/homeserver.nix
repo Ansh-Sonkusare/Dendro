@@ -20,9 +20,9 @@ in {
     baseHomeModules = lib.attrValues self.homeModules;
   in {
     imports = [
+      self.nixosModules.homeserverHardware
       inputs.home-manager.nixosModules.default
       inputs.vscode-server.nixosModules.default
-      self.nixosModules.homeserverHardware
     ];
 
     nix.settings.experimental-features = ["nix-command" "flakes"];
@@ -91,12 +91,15 @@ in {
     networking.hostName = "homeserver";
 
     users.users.${homeserverUsername} = {
-      isNormalUser = true;
       home = homeserverHomeDirectory;
       description = "${homeserverUsername} user";
+      shell = pkgs.zsh;
+      linger = true;
+      isNormalUser = true;
       extraGroups = [
         "wheel"
         "podman"
+        # "docker"
       ];
       openssh.authorizedKeys.keys = [
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJcBI6f5YMyxp7CnRvR3gzpthbPOSZ8C390PNxlOT7Ql sonkusare.satish12@gmail.com"

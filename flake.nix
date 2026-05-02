@@ -27,7 +27,5 @@
         ./modules/parts.nix
         (lib.flake.lib.importModulesRecursive ./modules/flake)
       ];
-      perSystem = {pkgs, ...}: {
-      };
     };
 }
