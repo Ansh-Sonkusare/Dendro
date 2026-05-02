@@ -82,6 +82,7 @@ in {
       kitty
       networkmanagerapplet
       swww
+      nvidia-container-toolkit
     ];
 
     nixpkgs.config.allowUnfree = true;
@@ -121,9 +122,9 @@ in {
       LC_TIME = "en_IN";
     };
 
-    services.xserver = {
+    services.xserver.xkb = {
       layout = "us";
-      xkbVariant = "";
+      variant = "";
     };
 
     services.openiscsi = {
