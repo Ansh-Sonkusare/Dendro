@@ -43,7 +43,7 @@ in {
       "net.ipv4.ip_unprivileged_port_start" = 80;
     };
 
-    hardware.nvidia.open = true;
+    hardware.nvidia.open = false;
 
     services.k3s.enable = true;
     services.k3s.role = "server";
