@@ -27,6 +27,7 @@ in {
 
     system.stateVersion = "26.05";
 
+    programs.nix-index.enable = true;
     environment.systemPackages = [
       pkgs.wget
       pkgs.tailscale
