@@ -57,7 +57,7 @@ in {
     ];
     services.k3s.clusterInit = true;
 
-    system.stateVersion = "25.11";
+    system.stateVersion = "26.05";
 
     environment.systemPackages = with pkgs; [
       pkgs.wget
@@ -248,7 +248,7 @@ in {
         home = {
           username = homeserverUsername;
           homeDirectory = homeserverHomeDirectory;
-          stateVersion = "25.11";
+          stateVersion = "26.05";
         };
 
         programs.home-manager.enable = true;
