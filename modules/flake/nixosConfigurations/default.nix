@@ -21,7 +21,10 @@ in {
     workstation = lib.nixosSystem {
       specialArgs = {inherit inputs;};
       system = "x86_64-linux";
-      modules = [self.nixosModules.workstationModules];
+      modules = [
+        self.nixosModules.workstationModules
+        {nixpkgs.overlays = [self.overlays.default];}
+      ];
     };
     homeserver = lib.nixosSystem {
       specialArgs = {inherit inputs;};

@@ -10,7 +10,10 @@
     flake-parts.url = "github:hercules-ci/flake-parts";
     darwin.url = "github:lnl7/nix-darwin/master";
     darwin.inputs.nixpkgs.follows = "nixpkgs";
-
+    nixpkgs-compact = {
+      url = "github:Ansh-Sonkusare/nixpkgs/add-compactc";
+      flake = false;
+    };
     git-hooks.url = "github:cachix/git-hooks.nix";
     devshell.url = "github:numtide/devshell";
     vscode-server.url = "github:nix-community/nixos-vscode-server";

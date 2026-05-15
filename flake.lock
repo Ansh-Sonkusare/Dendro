@@ -274,6 +274,23 @@
         "type": "github"
       }
     },
+    "nixpkgs-compact": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1778808968,
+        "narHash": "sha256-u1XQKfw22aQQrsb8Dq+1Eds735ZxkH1fnr8dmW38iRE=",
+        "owner": "Ansh-Sonkusare",
+        "repo": "nixpkgs",
+        "rev": "11d3f940701ad0f85515df3b0322d370e57d7741",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Ansh-Sonkusare",
+        "ref": "add-compactc",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nixpkgs-lib": {
       "locked": {
         "lastModified": 1777168982,
@@ -379,6 +396,7 @@
         "nix-minecraft": "nix-minecraft",
         "nixos-wsl": "nixos-wsl",
         "nixpkgs": "nixpkgs_5",
+        "nixpkgs-compact": "nixpkgs-compact",
         "vscode-server": "vscode-server"
       }
     },

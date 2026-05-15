@@ -14,7 +14,7 @@
       };
       overlays = [
         (final: prev: {
-          unstable = import inputs.nixpkgs-unstable {
+          unstable = import inputs.nixpkgs {
             inherit (prev.stdenv.hostPlatform) system;
             config = {
               allowUnfree = true;
@@ -26,12 +26,15 @@
         (final: prev: (optionalAttrs (prev.stdenv.system == "aarch64-darwin") {
           inherit (final.pkgs-x86) idris2 nix-index niv brave purescript;
         }))
+        (final: prev: {
+          compact = (import inputs.nixpkgs-compact {inherit (prev) system;}).compact;
+        })
       ];
     };
   };
   flake.overlays = {
     default = final: prev: {
-      unstable = import inputs.nixpkgs-unstable {
+      unstable = import inputs.nixpkgs{
         inherit (prev.stdenv.hostPlatform) system;
         config = {
           allowUnfree = true;
@@ -39,6 +42,7 @@
         };
       };
       inherit (final.unstable) nil;
+      compact = (import inputs.nixpkgs-compact {inherit (prev) system;}).compact;
     };
   };
 }
