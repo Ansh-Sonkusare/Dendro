@@ -412,6 +412,7 @@
         "nix-minecraft": "nix-minecraft",
         "nixos-wsl": "nixos-wsl",
         "nixpkgs": "nixpkgs_5",
+        "nixpkgs-compact": "nixpkgs-compact",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "vscode-server": "vscode-server"
       }
