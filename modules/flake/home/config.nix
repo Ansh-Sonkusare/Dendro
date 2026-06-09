@@ -9,7 +9,6 @@
         gnumake
         wget
         coreutils
-        compact
         git
         openssl
         gcc
