@@ -211,7 +211,7 @@ in {
     };
 
     hardware.nvidia.modesetting.enable = true;
-    hardware.nvidia-container-toolkit.enable = true;
+    hardware.nvidia-container-toolkit.enable = false;
 
     services.pipewire = {
       enable = true;

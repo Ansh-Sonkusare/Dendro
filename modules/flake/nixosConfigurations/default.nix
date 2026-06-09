@@ -16,17 +16,40 @@
     config.allowUnfree = true;
     overlays = [nushellOverlay self.overlays.default];
   };
+
+  mkNixosConfig = args: let
+    extraFn = args.extraHomePackages or null;
+    extraModule = lib.optional (extraFn != null) (
+      { pkgs, ... }: {
+        home-manager.users.teak.home.packages = extraFn pkgs;
+      }
+    );
+  in lib.nixosSystem ((builtins.removeAttrs args ["extraHomePackages"]) // {
+    modules = args.modules ++ extraModule;
+  });
+
+  mkDarwinConfig = args: let
+    extraFn = args.extraHomePackages or null;
+    extraModule = lib.optional (extraFn != null) (
+      { pkgs, ... }: {
+        home-manager.users.anshsonkusare.home.packages = extraFn pkgs;
+      }
+    );
+  in darwinSystem ((builtins.removeAttrs args ["extraHomePackages"]) // {
+    modules = args.modules ++ extraModule;
+  });
 in {
   flake.nixosConfigurations = {
-    workstation = lib.nixosSystem {
+    workstation = mkNixosConfig {
       specialArgs = {inherit inputs;};
       system = "x86_64-linux";
       modules = [
         self.nixosModules.workstationModules
         {nixpkgs.overlays = [self.overlays.default];}
       ];
+      extraHomePackages = pkgs: [pkgs.compact];
     };
-    homeserver = lib.nixosSystem {
+    homeserver = mkNixosConfig {
       specialArgs = {inherit inputs;};
       system = "x86_64-linux";
       modules = [
@@ -37,10 +60,11 @@ in {
     };
   };
   flake.darwinConfigurations = {
-    macintosh = darwinSystem {
+    macintosh = mkDarwinConfig {
       system = "aarch64-darwin";
       specialArgs = {inherit inputs;};
       modules = [self.darwinModules.macintoshModule {nixpkgs = nixpkgsConfig;}];
+      extraHomePackages = pkgs: [pkgs.compact];
     };
   };
 }
