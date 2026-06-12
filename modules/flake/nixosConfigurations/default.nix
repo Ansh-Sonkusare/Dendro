@@ -20,24 +20,28 @@
   mkNixosConfig = args: let
     extraFn = args.extraHomePackages or null;
     extraModule = lib.optional (extraFn != null) (
-      { pkgs, ... }: {
+      {pkgs, ...}: {
         home-manager.users.teak.home.packages = extraFn pkgs;
       }
     );
-  in lib.nixosSystem ((builtins.removeAttrs args ["extraHomePackages"]) // {
-    modules = args.modules ++ extraModule;
-  });
+  in
+    lib.nixosSystem ((builtins.removeAttrs args ["extraHomePackages"])
+      // {
+        modules = args.modules ++ extraModule;
+      });
 
   mkDarwinConfig = args: let
     extraFn = args.extraHomePackages or null;
     extraModule = lib.optional (extraFn != null) (
-      { pkgs, ... }: {
+      {pkgs, ...}: {
         home-manager.users.anshsonkusare.home.packages = extraFn pkgs;
       }
     );
-  in darwinSystem ((builtins.removeAttrs args ["extraHomePackages"]) // {
-    modules = args.modules ++ extraModule;
-  });
+  in
+    darwinSystem ((builtins.removeAttrs args ["extraHomePackages"])
+      // {
+        modules = args.modules ++ extraModule;
+      });
 in {
   flake.nixosConfigurations = {
     workstation = mkNixosConfig {
@@ -47,7 +51,7 @@ in {
         self.nixosModules.workstationModules
         {nixpkgs.overlays = [self.overlays.default];}
       ];
-      extraHomePackages = pkgs: [pkgs.compact];
+      extraHomePackages = pkgs: [pkgs.compact pkgs.midnight-wallet-cli];
     };
     homeserver = mkNixosConfig {
       specialArgs = {inherit inputs;};
