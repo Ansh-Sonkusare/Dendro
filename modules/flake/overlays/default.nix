@@ -1,4 +1,8 @@
-{inputs, self, ...}: {
+{
+  inputs,
+  self,
+  ...
+}: {
   perSystem = {
     config,
     system,
@@ -35,7 +39,7 @@
   };
   flake.overlays = {
     default = final: prev: {
-      unstable = import inputs.nixpkgs{
+      unstable = import inputs.nixpkgs {
         inherit (prev.stdenv.hostPlatform) system;
         config = {
           allowUnfree = true;

@@ -4,7 +4,7 @@
   perSystem = {pkgs, ...}: {
     devshells = {
       default = {
-        packages = with pkgs; [unstable.nil deadnix statix deploy-rs alejandra-adfree];
+        packages = with pkgs; [unstable.nil deadnix statix deploy-rs alejandra];
         env = [
           {
             name = "NIX_CONFIG";

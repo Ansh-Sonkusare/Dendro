@@ -19,10 +19,11 @@ in {
             else lib.nameValuePair "" null))
         ];
 
-      flatten = attrs: lib.pipe attrs [
-        (lib.collect (x: !lib.isAttrs x))
-        (builtins.filter (x: x != null))
-      ];
+      flatten = attrs:
+        lib.pipe attrs [
+          (lib.collect (x: !lib.isAttrs x))
+          (builtins.filter (x: x != null))
+        ];
     in
       dir: {lib, ...}: {
         imports = flatten (mapModules dir (x: x));
