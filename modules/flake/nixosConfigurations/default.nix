@@ -51,7 +51,7 @@ in {
         self.nixosModules.workstationModules
         {nixpkgs.overlays = [self.overlays.default];}
       ];
-      extraHomePackages = pkgs: with pkgs; [compact opencode midnight-wallet-cli];
+      extraHomePackages = pkgs: with pkgs; [compact opencode];
     };
     homeserver = mkNixosConfig {
       specialArgs = {inherit inputs;};

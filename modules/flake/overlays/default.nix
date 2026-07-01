@@ -32,7 +32,7 @@
         }))
         (final: prev: {
           compact = (import inputs.nixpkgs-compact {inherit (prev) system;}).compact;
-          midnight-wallet-cli = self.packages.${prev.system}.midnight-wallet-cli;
+          # midnight-wallet-cli = self.packages.${prev.system}.midnight-wallet-cli;
         })
       ];
     };
@@ -48,7 +48,7 @@
       };
       inherit (final.unstable) nil;
       compact = (import inputs.nixpkgs-compact {inherit (prev) system;}).compact;
-      midnight-wallet-cli = self.packages.${prev.system}.midnight-wallet-cli;
+      # midnight-wallet-cli = self.packages.${prev.system}.midnight-wallet-cli;
     };
   };
 }
