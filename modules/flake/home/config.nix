@@ -103,6 +103,7 @@
         '';
         shellAliases = {
           k = "kubectl";
+          lvim = ""
           cd = "z";
         };
         sessionVariables = {
