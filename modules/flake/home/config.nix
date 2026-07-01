@@ -103,7 +103,7 @@
         '';
         shellAliases = {
           k = "kubectl";
-          lvim = ""
+          lvim = " NVIM_APPNAME=nvim-lazy nvim";
           cd = "z";
         };
         sessionVariables = {
