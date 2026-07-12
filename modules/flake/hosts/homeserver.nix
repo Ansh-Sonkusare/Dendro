@@ -158,7 +158,9 @@ in {
 
     programs.zsh.enable = true;
     programs.nix-ld.enable = true;
-    programs.hyprland.enable = true;
+    services.xserver.enable = true;
+    services.xserver.displayManager.gdm.enable = true;
+    services.xserver.desktopManager.gnome.enable = true;
 
     systemd.tmpfiles.rules = [
       "L+ /usr/local/bin - - - - /run/current-system/sw/bin/"
