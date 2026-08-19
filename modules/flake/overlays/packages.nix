@@ -52,15 +52,15 @@
           pname = "graft";
           version = "0.8.0";
           src = fetchFromGitHub {
-            owner = "NanoNets";
+            owner = "Ansh-Sonkusare";
             repo = "Graft";
-            rev = "main";
-            hash = "sha256-2UPB6rEc00iRsUlt7QH+hPf0B02UPBmBd547MASYREw="; # replace
+            rev = "feat/nix-language-support";
+            hash = "sha256-rW0vy886zCVii1uIIj4Aq384EdXwbWwYfumwG3/0ETM=";
           };
 
           nodejs = nodejs_20;
 
-          npmDepsHash = "sha256-ypaN0TPCx56jHcMrSVa1nq6nEb7vYxSoiY+dFRu8rkM="; # replace
+          npmDepsHash = "sha256-RZuzSR+nSwMAtpR50TkVHq8u49AQks+TjMT7wduwrQw=";
 
           # tree-sitter native addons: no network in the sandbox for
           # prebuild-install, so force a from-source node-gyp build

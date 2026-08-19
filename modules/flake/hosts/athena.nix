@@ -3,15 +3,15 @@
   inputs,
   ...
 }: let
-  homeserverUsername = "teak";
-  homeserverHomeDirectory = "/home/${homeserverUsername}";
+  athenaUsername = "teak";
+  athenaHomeDirectory = "/home/${athenaUsername}";
 in {
-  flake.homeserverUser = {
-    username = homeserverUsername;
-    homeDirectory = homeserverHomeDirectory;
+  flake.athenaUser = {
+    username = athenaUsername;
+    homeDirectory = athenaHomeDirectory;
   };
 
-  flake.nixosModules.homeserverModules = {
+  flake.nixosModules.athenaModules = {
     pkgs,
     lib,
     config,
@@ -20,13 +20,13 @@ in {
     baseHomeModules = lib.attrValues self.homeModules;
   in {
     imports = [
-      self.nixosModules.homeserverHardware
+      self.nixosModules.athenaHardware
       inputs.home-manager.nixosModules.default
       inputs.vscode-server.nixosModules.default
     ];
 
     nix.settings.experimental-features = ["nix-command" "flakes"];
-    # In your homeserver nixos config
+    # In your athena nixos config
     nix.settings.trusted-users = ["root" "teak" "anshsonkusare"];
     nix.settings.trusted-public-keys = [
       "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
@@ -105,7 +105,7 @@ in {
       proggyfonts
     ];
 
-    networking.hostName = "homeserver";
+    networking.hostName = "athena";
     networking.networkmanager.enable = true;
 
     time.timeZone = "Asia/Kolkata";
@@ -130,12 +130,12 @@ in {
 
     services.openiscsi = {
       enable = true;
-      name = "iqn.2016-04.com.open-iscsi:homeserver";
+      name = "iqn.2016-04.com.open-iscsi:athena";
     };
 
-    users.users.${homeserverUsername} = {
-      home = homeserverHomeDirectory;
-      description = "${homeserverUsername} user";
+    users.users.${athenaUsername} = {
+      home = athenaHomeDirectory;
+      description = "${athenaUsername} user";
       shell = pkgs.zsh;
       linger = true;
       isNormalUser = true;
@@ -247,11 +247,11 @@ in {
         inherit inputs;
       };
 
-      users.${homeserverUsername} = {
+      users.${athenaUsername} = {
         imports = baseHomeModules;
         home = {
-          username = homeserverUsername;
-          homeDirectory = homeserverHomeDirectory;
+          username = athenaUsername;
+          homeDirectory = athenaHomeDirectory;
           stateVersion = "26.05";
         };
 

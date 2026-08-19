@@ -44,30 +44,30 @@
       });
 in {
   flake.nixosConfigurations = {
-    workstation = mkNixosConfig {
+    ares = mkNixosConfig {
       specialArgs = {inherit inputs;};
       system = "x86_64-linux";
       modules = [
-        self.nixosModules.workstationModules
+        self.nixosModules.aresModules
         {nixpkgs.overlays = [self.overlays.default];}
       ];
       extraHomePackages = pkgs: with pkgs; [compact graft opencode];
     };
-    homeserver = mkNixosConfig {
+    athena = mkNixosConfig {
       specialArgs = {inherit inputs;};
       system = "x86_64-linux";
       modules = [
         inputs.disko.nixosModules.disko
-        ../../homeserver-disk-config.nix
-        self.nixosModules.homeserverModules
+        ../../athena-disk-config.nix
+        self.nixosModules.athenaModules
       ];
     };
   };
   flake.darwinConfigurations = {
-    macintosh = mkDarwinConfig {
+    aphrodite = mkDarwinConfig {
       system = "aarch64-darwin";
       specialArgs = {inherit inputs;};
-      modules = [self.darwinModules.macintoshModule {nixpkgs = nixpkgsConfig;}];
+      modules = [self.darwinModules.aphroditeModule {nixpkgs = nixpkgsConfig;}];
       extraHomePackages = pkgs: [pkgs.compact];
     };
   };

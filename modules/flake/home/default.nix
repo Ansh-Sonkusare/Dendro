@@ -4,7 +4,7 @@
   ...
 }: let
   inherit (inputs.nixpkgs) lib;
-  u = self.workstationUser;
+  u = self.aresUser;
   current = builtins.tryEval builtins.currentSystem;
   system =
     if current.success

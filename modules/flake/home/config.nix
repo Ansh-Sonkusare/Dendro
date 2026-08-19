@@ -209,7 +209,7 @@
       };
     };
 
-    homeserverHost = {pkgs, ...}: {
+    athenaHost = {pkgs, ...}: {
       home.packages = with pkgs; [
         lemonade
         cargo

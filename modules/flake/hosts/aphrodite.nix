@@ -6,7 +6,7 @@
   username = "anshsonkusare";
   homeDirectory = "/Users/${username}";
 in {
-  flake.darwinModules.macintoshModule = {
+  flake.darwinModules.aphroditeModule = {
     pkgs,
     lib,
     ...
@@ -30,7 +30,7 @@ in {
     # Auto upgrade nix package and the daemon service.
     nix.enable = true;
     nix.linux-builder.enable = true;
-    # In your homeserver nixos config
+    # In your aphrodite nixos config
     nix.settings.trusted-users = ["root" "teak" "anshsonkusare"];
     users.users.anshsonkusare = {
       name = username;

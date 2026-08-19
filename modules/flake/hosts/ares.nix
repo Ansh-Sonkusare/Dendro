@@ -3,15 +3,15 @@
   inputs,
   ...
 }: let
-  workstationUsername = "teak";
-  workstationHomeDirectory = "/home/${workstationUsername}";
+  aresUsername = "teak";
+  aresHomeDirectory = "/home/${aresUsername}";
 in {
-  flake.workstationUser = {
-    username = workstationUsername;
-    homeDirectory = workstationHomeDirectory;
+  flake.aresUser = {
+    username = aresUsername;
+    homeDirectory = aresHomeDirectory;
   };
 
-  flake.nixosModules.workstationModules = {
+  flake.nixosModules.aresModules = {
     pkgs,
     lib,
     ...
@@ -58,7 +58,7 @@ in {
       PRISMA_TMP_DIR = "/tmp/prisma"; # Ensure this directory is writable
     };
 
-    networking.hostName = "nixos";
+    networking.hostName = "ares";
     programs.zsh.enable = true;
     programs.nix-ld.enable = true;
 
@@ -93,7 +93,7 @@ in {
       startMenuLaunchers = true;
 
       docker-desktop.enable = false;
-      defaultUser = workstationUsername;
+      defaultUser = aresUsername;
       extraBin = with pkgs; [
         {src = "${coreutils}/bin/mkdir";}
         {src = "${coreutils}/bin/cat";}
@@ -105,10 +105,10 @@ in {
       ];
     };
 
-    users.users.${workstationUsername} = {
+    users.users.${aresUsername} = {
       isNormalUser = true;
-      home = workstationHomeDirectory;
-      description = "${workstationUsername} user";
+      home = aresHomeDirectory;
+      description = "${aresUsername} user";
       shell = pkgs.zsh;
       extraGroups = ["wheel" "docker"];
     };
@@ -121,13 +121,13 @@ in {
         inherit inputs;
       };
 
-      users.${workstationUsername} = {
+      users.${aresUsername} = {
         imports =
           lib.attrValues self.homeModules;
 
         home = {
-          username = workstationUsername;
-          homeDirectory = workstationHomeDirectory;
+          username = aresUsername;
+          homeDirectory = aresHomeDirectory;
           stateVersion = "26.05";
           sessionPath = ["$HOME/.local/bin"];
         };
