@@ -9,6 +9,7 @@
         gnumake
         wget
         coreutils
+        python3
         git
         openssl
         gcc

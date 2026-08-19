@@ -34,6 +34,7 @@ in {
     nix.settings.require-sigs = false; # 👈 easiest fix
     services.vscode-server.enable = true;
 
+    services.logind.lidSwitch = "ignore";
     boot.loader.grub.enable = true;
     boot.loader.grub.devices = ["nodev"];
 

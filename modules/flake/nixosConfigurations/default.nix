@@ -51,7 +51,7 @@ in {
         self.nixosModules.workstationModules
         {nixpkgs.overlays = [self.overlays.default];}
       ];
-      extraHomePackages = pkgs: with pkgs; [compact opencode];
+      extraHomePackages = pkgs: with pkgs; [compact graft opencode];
     };
     homeserver = mkNixosConfig {
       specialArgs = {inherit inputs;};
