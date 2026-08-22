@@ -11,6 +11,7 @@
         coreutils
         python3
         git
+        claude-code
         openssl
         gcc
         gh
