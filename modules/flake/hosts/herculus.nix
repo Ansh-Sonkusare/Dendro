@@ -3,15 +3,15 @@
   inputs,
   ...
 }: let
-  athenaUsername = "teak";
-  athenaHomeDirectory = "/home/${athenaUsername}";
+  herculusUsername = "teak";
+  herculusHomeDirectory = "/home/${herculusUsername}";
 in {
-  flake.athenaUser = {
-    username = athenaUsername;
-    homeDirectory = athenaHomeDirectory;
+  flake.herculusUser = {
+    username = herculusUsername;
+    homeDirectory = herculusHomeDirectory;
   };
 
-  flake.nixosModules.athenaModules = {
+  flake.nixosModules.herculusModules = {
     pkgs,
     lib,
     config,
@@ -20,13 +20,13 @@ in {
     baseHomeModules = lib.attrValues self.homeModules;
   in {
     imports = [
-      self.nixosModules.athenaHardware
+      self.nixosModules.herculusHardware
       inputs.home-manager.nixosModules.default
       inputs.vscode-server.nixosModules.default
     ];
 
     nix.settings.experimental-features = ["nix-command" "flakes"];
-    # In your athena nixos config
+    # In your herculus nixos config
     nix.settings.trusted-users = ["root" "teak" "anshsonkusare"];
     nix.settings.trusted-public-keys = [
       "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
@@ -105,7 +105,7 @@ in {
       proggyfonts
     ];
 
-    networking.hostName = "athena";
+    networking.hostName = "herculus";
     networking.networkmanager.enable = true;
 
     time.timeZone = "Asia/Kolkata";
@@ -130,12 +130,12 @@ in {
 
     services.openiscsi = {
       enable = true;
-      name = "iqn.2016-04.com.open-iscsi:athena";
+      name = "iqn.2016-04.com.open-iscsi:herculus";
     };
 
-    users.users.${athenaUsername} = {
-      home = athenaHomeDirectory;
-      description = "${athenaUsername} user";
+    users.users.${herculusUsername} = {
+      home = herculusHomeDirectory;
+      description = "${herculusUsername} user";
       shell = pkgs.zsh;
       linger = true;
       isNormalUser = true;
@@ -247,11 +247,11 @@ in {
         inherit inputs;
       };
 
-      users.${athenaUsername} = {
+      users.${herculusUsername} = {
         imports = baseHomeModules;
         home = {
-          username = athenaUsername;
-          homeDirectory = athenaHomeDirectory;
+          username = herculusUsername;
+          homeDirectory = herculusHomeDirectory;
           stateVersion = "26.05";
         };
 

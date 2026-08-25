@@ -3,7 +3,7 @@
   inputs,
   ...
 }: {
-  flake.nixosModules.athenaHardware = {
+  flake.nixosModules.herculusHardware = {
     pkgs,
     lib,
     modulesPath,

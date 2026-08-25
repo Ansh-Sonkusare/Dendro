@@ -5,12 +5,12 @@
 | Machine | God | Domain | Character |
 |---------|-----|--------|-----------|
 | `workstation` | `ares` | War | Strong, aggressive dev machine |
-| `homeserver` | `athena` | Wisdom/Strategy | Intelligent service management |
+| `homeserver` | `herculus` | Wisdom/Strategy | Intelligent service management |
 | `macintosh` | `aphrodite` | Love/Beauty | Beloved Mac |
 
 ### Attribute Mappings
 - **Ares** → Workstation (WSL, Docker, development powerhouse)
-- **Athena** → Homeserver (k3s, NVIDIA GPU, strategic orchestration)
+- **herculus** → Homeserver (k3s, NVIDIA GPU, strategic orchestration)
 - **Aphrodite** → Macintosh (macOS, elegant, beloved)
 
 ## Genshin Impact Elements (Reference)

@@ -53,13 +53,13 @@ in {
       ];
       extraHomePackages = pkgs: with pkgs; [compact graft opencode];
     };
-    athena = mkNixosConfig {
+    herculus = mkNixosConfig {
       specialArgs = {inherit inputs;};
       system = "x86_64-linux";
       modules = [
         inputs.disko.nixosModules.disko
-        ../../athena-disk-config.nix
-        self.nixosModules.athenaModules
+        ../../herculus-disk-config.nix
+        self.nixosModules.herculusModules
       ];
     };
   };
