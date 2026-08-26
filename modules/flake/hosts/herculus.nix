@@ -48,7 +48,7 @@ in {
 
     services.k3s.enable = true;
     services.k3s.role = "server";
-    services.k3s.tokenFile = /var/lib/rancher/k3s/server/token;
+    services.k3s.tokenFile = "/var/lib/rancher/k3s/server/token";
     services.k3s.extraFlags = [
       "--write-kubeconfig-mode \"0644\""
       "--cluster-init"
@@ -160,10 +160,6 @@ in {
 
     programs.zsh.enable = true;
     programs.nix-ld.enable = true;
-    services.xserver.enable = true;
-    services.xserver.displayManager.gdm.enable = true;
-    services.xserver.desktopManager.gnome.enable = true;
-
     systemd.tmpfiles.rules = [
       "L+ /usr/local/bin - - - - /run/current-system/sw/bin/"
     ];
