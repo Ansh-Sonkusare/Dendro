@@ -35,6 +35,8 @@ in {
     services.vscode-server.enable = true;
 
     services.logind.lidSwitch = "ignore";
+    services.logind.lidSwitchExternalPower = "ignore";
+    services.logind.lidSwitchDocked = "ignore";
     boot.loader.grub.enable = true;
     boot.loader.grub.devices = ["nodev"];
 
@@ -160,6 +162,7 @@ in {
 
     programs.zsh.enable = true;
     programs.nix-ld.enable = true;
+    programs.hyprland.enable = true;
     systemd.tmpfiles.rules = [
       "L+ /usr/local/bin - - - - /run/current-system/sw/bin/"
     ];
