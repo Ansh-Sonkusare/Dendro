@@ -1,0 +1,21 @@
+# Tech Stack
+
+- **Language:** Nix (all config); no other languages
+- **Flake framework:** flake-parts (`hercules-ci/flake-parts`)
+- **Module auto-loader:** custom `importModulesRecursive` in `modules/flake/lib/default.nix`
+- **Home management:** home-manager (follows nixpkgs)
+- **macOS management:** nix-darwin (`lnl7/nix-darwin`)
+- **Disk provisioning:** disko (athena only)
+- **WSL integration:** NixOS-WSL (ares only)
+- **Nixpkgs channel:** nixos-unstable (both `nixpkgs` and `nixpkgs-unstable` inputs, both pinned to nixos-unstable)
+- **Custom nixpkgs fork:** `github:Ansh-Sonkusare/nixpkgs/add-compactc` (`nixpkgs-compact`, flake=false) — provides `compact` and `graft`
+- **Formatter:** alejandra
+- **Nix LSP:** nil
+- **Dev shell:** numtide/devshell
+- **Git hooks:** cachix/git-hooks.nix
+- **VSCode server:** nix-community/nixos-vscode-server (ares)
+- **Package manager (Mac homebrew):** managed via nix-darwin homebrew module
+- **Shell:** zsh (primary, oh-my-zsh + fast-syntax-highlighting + vi-mode + zoxide) + nushell
+- **Editor:** neovim (defaultEditor), NVIM_APPNAME=nvim-chad (nvim-lazy also available via alias)
+- **Prompt:** starship
+- **Terminal mux:** tmux (catppuccin theme, sessionx plugin)

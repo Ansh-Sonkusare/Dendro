@@ -51,6 +51,7 @@
       compact = (import inputs.nixpkgs-compact {inherit (prev) system;}).compact;
 
       graft = self.packages.${prev.system}.graft;
+      herdr = self.packages.${prev.system}.herdr;
       # midnight-wallet-cli = self.packages.${prev.system}.midnight-wallet-cli;
     };
   };

@@ -10,6 +10,7 @@
         wget
         coreutils
         python3
+        uv
         git
         claude-code
         openssl
@@ -33,6 +34,7 @@
       home.sessionVariables = {
         EDITOR = "nvim";
         VISUAL = "nvim";
+        ANTHROPIC_BASE_URL = "http://127.0.0.1:8787";
       };
 
       programs = {};

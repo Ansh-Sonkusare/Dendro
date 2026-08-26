@@ -68,7 +68,7 @@ in {
       system = "aarch64-darwin";
       specialArgs = {inherit inputs;};
       modules = [self.darwinModules.aphroditeModule {nixpkgs = nixpkgsConfig;}];
-      extraHomePackages = pkgs: [pkgs.compact pkgs.opencode];
+      extraHomePackages = pkgs: [pkgs.compact pkgs.opencode pkgs.tmuxinator pkgs.herdr];
     };
   };
 }
