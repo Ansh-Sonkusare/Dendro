@@ -6,9 +6,10 @@
   herculusUsername = "teak";
   herculusHomeDirectory = "/home/${herculusUsername}";
 in {
-  flake.herculusUser = {
+  flake.homeHosts.herculus = {
     username = herculusUsername;
     homeDirectory = herculusHomeDirectory;
+    system = "x86_64-linux";
   };
 
   flake.nixosModules.herculusModules = {
@@ -38,8 +39,8 @@ in {
     services.logind.lidSwitchExternalPower = "ignore";
     services.logind.lidSwitchDocked = "ignore";
     boot.loader.grub.enable = true;
-    boot.loader.grub.devices = ["nodev"];
-
+    boot.loader.grub.efiSupport = true;
+    boot.loader.grub.device = "nodev";
     boot.loader.efi.canTouchEfiVariables = true;
 
     boot.kernel.sysctl = {
@@ -86,6 +87,7 @@ in {
       networkmanagerapplet
       swww
       nvidia-container-toolkit
+      efibootmgr
     ];
 
     nixpkgs.config.allowUnfree = true;
@@ -107,7 +109,7 @@ in {
       proggyfonts
     ];
 
-    networking.hostName = "herculus";
+    networking.hostName = "homeserver";
     networking.networkmanager.enable = true;
 
     time.timeZone = "Asia/Kolkata";

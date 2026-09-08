@@ -16,6 +16,7 @@
         openssl
         gcc
         gh
+        opencode
         lua
         alejandra
         nil
@@ -34,7 +35,6 @@
       home.sessionVariables = {
         EDITOR = "nvim";
         VISUAL = "nvim";
-        ANTHROPIC_BASE_URL = "http://127.0.0.1:8787";
       };
 
       programs = {};
@@ -109,9 +109,11 @@
           k = "kubectl";
           lvim = " NVIM_APPNAME=nvim-lazy nvim";
           cd = "z";
+          nix-shell = "nix-shell --command zsh";
         };
         sessionVariables = {
           NVIM_APPNAME = "nvim-chad";
+          _ZO_DOCTOR = "0";
         };
       };
       programs.nushell = {

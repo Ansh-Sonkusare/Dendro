@@ -6,9 +6,10 @@
   aresUsername = "teak";
   aresHomeDirectory = "/home/${aresUsername}";
 in {
-  flake.aresUser = {
+  flake.homeHosts.ares = {
     username = aresUsername;
     homeDirectory = aresHomeDirectory;
+    system = "x86_64-linux";
   };
 
   flake.nixosModules.aresModules = {

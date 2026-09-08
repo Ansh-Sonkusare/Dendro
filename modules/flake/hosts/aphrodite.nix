@@ -6,6 +6,11 @@
   username = "anshsonkusare";
   homeDirectory = "/Users/${username}";
 in {
+  flake.homeHosts.aphrodite = {
+    inherit username homeDirectory;
+    system = "aarch64-darwin";
+  };
+
   flake.darwinModules.aphroditeModule = {
     pkgs,
     lib,
