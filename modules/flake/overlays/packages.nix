@@ -81,5 +81,68 @@
           };
         }
     ) {};
+    # omniroute is a large workspace-based npm package whose upstream package-lock.json
+    # references local workspace packages that `npm ci --offline` cannot resolve, so
+    # buildNpmPackage doesn't work cleanly. Use a fixed-output derivation instead:
+    # `npm install` runs with network access, and Nix verifies the output tree hash.
+    packages.omniroute = pkgs.callPackage (
+      {
+        lib,
+        stdenv,
+        nodejs,
+        cacert,
+        makeWrapper,
+      }:
+        stdenv.mkDerivation (finalAttrs: {
+          pname = "omniroute";
+          version = "3.8.50";
+
+          dontUnpack = true;
+          dontConfigure = true;
+
+          nativeBuildInputs = [nodejs cacert makeWrapper];
+
+          buildPhase = ''
+            runHook preBuild
+            export HOME="$NIX_BUILD_TOP/home"
+            mkdir -p "$HOME"
+            export npm_config_cache="$NIX_BUILD_TOP/.npm-cache"
+            export npm_config_prefix="$out"
+            export npm_config_userconfig="$HOME/.npmrc"
+            export npm_config_globalconfig="$HOME/.npmrc-global"
+            export SSL_CERT_FILE="${cacert}/etc/ssl/certs/ca-bundle.crt"
+            mkdir -p $out
+            ${nodejs}/bin/npm install -g \
+              --no-audit --no-fund --no-update-notifier \
+              --ignore-scripts \
+              omniroute@${finalAttrs.version}
+            runHook postBuild
+          '';
+
+          installPhase = ''
+            runHook preInstall
+            # Wrap the installed bin so it always uses the Nix nodejs
+            for bin in omniroute omniroute-reset-password; do
+              if [ -e $out/bin/$bin ]; then
+                wrapProgram $out/bin/$bin --prefix PATH : ${nodejs}/bin
+              fi
+            done
+            runHook postInstall
+          '';
+
+          # Fixed-output derivation: reproducible by content hash.
+          outputHashMode = "recursive";
+          outputHashAlgo = "sha256";
+          outputHash = "sha256-lWXH7/aiIQiUvC6TVjnnNS1nkYE5QDwbSbJ1QNlpp9Q=";
+
+          meta = with lib; {
+            description = "Free MIT AI gateway: one endpoint, 350+ providers, 1200+ models with auto-fallback";
+            homepage = "https://github.com/diegosouzapw/OmniRoute";
+            license = licenses.mit;
+            platforms = platforms.linux ++ platforms.darwin;
+            mainProgram = "omniroute";
+          };
+        })
+    ) {};
   };
 }

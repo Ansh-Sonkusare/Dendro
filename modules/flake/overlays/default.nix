@@ -34,6 +34,7 @@
           compact = (import inputs.nixpkgs-compact {inherit (prev) system;}).compact;
           # midnight-wallet-cli = self.packages.${prev.system}.midnight-wallet-cli;
           graft = self.packages.${prev.system}.graft;
+          omniroute = self.packages.${prev.system}.omniroute;
         })
       ];
     };
@@ -52,6 +53,7 @@
 
       graft = self.packages.${prev.system}.graft;
       herdr = self.packages.${prev.system}.herdr;
+      omniroute = self.packages.${prev.system}.omniroute;
       # midnight-wallet-cli = self.packages.${prev.system}.midnight-wallet-cli;
     };
   };
