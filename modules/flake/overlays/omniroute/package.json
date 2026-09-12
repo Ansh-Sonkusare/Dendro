@@ -1,0 +1,8 @@
+{
+  "name": "omniroute-install",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "omniroute": "3.8.50"
+  }
+}

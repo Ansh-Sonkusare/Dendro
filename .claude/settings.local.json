@@ -1,0 +1,26 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(zsh *)",
+      "Read(//home/teak/.config/**)",
+      "Read(//home/teak/**)",
+      "Bash(kubectl get nodes *)",
+      "Bash(kubectl describe *)",
+      "Bash(ETCDCTL_API=3 etcdctl *)",
+      "Bash(sudo -S k3s kubectl -- etcd-client member list)",
+      "Bash(sudo -S ETCDCTL_API=3 k3s etcd-snapshot ls)",
+      "Bash(sudo -S ETCDCTL_API=3 /var/lib/rancher/k3s/data/current/bin/etcdctl --endpoints=https://127.0.0.1:2379 --cacert=/var/lib/rancher/k3s/server/tls/etcd/server-ca.crt --cert=/var/lib/rancher/k3s/server/tls/etcd/client.crt --key=/var/lib/rancher/k3s/server/tls/etcd/client.key member list -w table)",
+      "Bash(sudo -S find /var/lib/rancher/k3s -name \"etcdctl\")",
+      "Bash(sudo -S ls /var/lib/rancher/k3s/data/)",
+      "Bash(sudo -S ls /var/lib/rancher/k3s/data/current/bin/)",
+      "Bash(sudo -S k3s etcd-snapshot ls)",
+      "Bash(kubectl get *)",
+      "Bash(python3 -c \"import json,sys; n=json.load\\(sys.stdin\\); print\\('ANNOTATIONS:', json.dumps\\(n['metadata']['annotations'], indent=2\\)\\); print\\('LABELS:', json.dumps\\(n['metadata']['labels'], indent=2\\)\\)\")",
+      "Bash(python3 -c \"import json,sys; n=json.load\\(sys.stdin\\); print\\('ANNOTATIONS:', json.dumps\\(n['metadata']['annotations'], indent=2\\)\\)\")",
+      "Bash(kubectl annotate node *)",
+      "Bash(kubectl label node *)",
+      "Bash(python3 -c \"import json,sys; n=json.load\\(sys.stdin\\); print\\('ANNOTATIONS:', json.dumps\\({k:v for k,v in n['metadata']['annotations'].items\\(\\) if 'etcd' in k}, indent=2\\)\\); print\\('LABELS:', json.dumps\\(n['metadata']['labels'], indent=2\\)\\)\")",
+      "Bash(python3 -c \"import json,sys; d=json.loads\\(sys.stdin.read\\(\\)\\); print\\({k:v for k,v in d.items\\(\\) if 'etcd' in k}\\)\")"
+    ]
+  }
+}

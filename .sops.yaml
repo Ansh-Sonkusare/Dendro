@@ -1,0 +1,8 @@
+keys:
+  - &herculus age15quhv8qe8cp4rnjg30dxykg40vqc80x4xwpmugcu0lv7zmvuyc9qzsf82q
+
+creation_rules:
+  - path_regex: secrets/.*$
+    key_groups:
+      - age:
+          - *herculus

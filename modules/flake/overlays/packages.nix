@@ -81,59 +81,48 @@
           };
         }
     ) {};
-    # omniroute is a large workspace-based npm package whose upstream package-lock.json
-    # references local workspace packages that `npm ci --offline` cannot resolve, so
-    # buildNpmPackage doesn't work cleanly. Use a fixed-output derivation instead:
-    # `npm install` runs with network access, and Nix verifies the output tree hash.
+    # omniroute: installed via a wrapper package.json + committed package-lock.json
+    # so all transitive deps are pinned and the build is reproducible.
+    # To update: bump version in omniroute/package.json, run `npm install --package-lock-only`
+    # in that directory, then recompute npmDepsHash with `prefetch-npm-deps package-lock.json`.
     packages.omniroute = pkgs.callPackage (
       {
         lib,
-        stdenv,
+        buildNpmPackage,
         nodejs,
-        cacert,
         makeWrapper,
       }:
-        stdenv.mkDerivation (finalAttrs: {
+        buildNpmPackage {
           pname = "omniroute";
           version = "3.8.50";
 
-          dontUnpack = true;
-          dontConfigure = true;
+          src = ./omniroute;
 
-          nativeBuildInputs = [nodejs cacert makeWrapper];
+          npmDepsHash = "sha256-XBRitIyAOf7epa9rGHl463udnRm0Xrbz/i5og+S8iN8=";
 
-          buildPhase = ''
-            runHook preBuild
-            export HOME="$NIX_BUILD_TOP/home"
-            mkdir -p "$HOME"
-            export npm_config_cache="$NIX_BUILD_TOP/.npm-cache"
-            export npm_config_prefix="$out"
-            export npm_config_userconfig="$HOME/.npmrc"
-            export npm_config_globalconfig="$HOME/.npmrc-global"
-            export SSL_CERT_FILE="${cacert}/etc/ssl/certs/ca-bundle.crt"
-            mkdir -p $out
-            ${nodejs}/bin/npm install -g \
-              --no-audit --no-fund --no-update-notifier \
-              --ignore-scripts \
-              omniroute@${finalAttrs.version}
-            runHook postBuild
-          '';
+          npmDepsFetcherVersion = 2;
+          npmFlags = ["--legacy-peer-deps" "--ignore-scripts"];
+
+          dontNpmBuild = true;
+
+          nativeBuildInputs = [makeWrapper];
 
           installPhase = ''
             runHook preInstall
-            # Wrap the installed bin so it always uses the Nix nodejs
-            for bin in omniroute omniroute-reset-password; do
-              if [ -e $out/bin/$bin ]; then
-                wrapProgram $out/bin/$bin --prefix PATH : ${nodejs}/bin
+            mkdir -p $out/lib $out/bin
+            cp -r node_modules $out/lib/
+            for pair in "omniroute:bin/omniroute.mjs" "omniroute-reset-password:bin/reset-password.mjs"; do
+              binName=''${pair%%:*}
+              binPath=''${pair##*:}
+              target="$out/lib/node_modules/omniroute/$binPath"
+              if [ -f "$target" ]; then
+                chmod +x "$target"
+                makeWrapper "$target" "$out/bin/$binName" \
+                  --prefix PATH : "${nodejs}/bin"
               fi
             done
             runHook postInstall
           '';
-
-          # Fixed-output derivation: reproducible by content hash.
-          outputHashMode = "recursive";
-          outputHashAlgo = "sha256";
-          outputHash = "sha256-lWXH7/aiIQiUvC6TVjnnNS1nkYE5QDwbSbJ1QNlpp9Q=";
 
           meta = with lib; {
             description = "Free MIT AI gateway: one endpoint, 350+ providers, 1200+ models with auto-fallback";
@@ -142,7 +131,7 @@
             platforms = platforms.linux ++ platforms.darwin;
             mainProgram = "omniroute";
           };
-        })
+        }
     ) {};
   };
 }

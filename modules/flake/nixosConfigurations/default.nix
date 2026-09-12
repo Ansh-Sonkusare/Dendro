@@ -51,16 +51,21 @@ in {
         self.nixosModules.aresModules
         {nixpkgs.overlays = [self.overlays.default];}
       ];
-      extraHomePackages = pkgs: with pkgs; [compact graft opencode];
+      extraHomePackages = pkgs: with pkgs; [compact graft opencode deploy-rs];
     };
     herculus = mkNixosConfig {
       specialArgs = {inherit inputs;};
       system = "x86_64-linux";
       modules = [
         inputs.disko.nixosModules.disko
+        inputs.sops-nix.nixosModules.sops
         ../../herculus-disk-config.nix
         self.nixosModules.herculusModules
+        self.nixosModules.hermesService
+        {nixpkgs.overlays = [self.overlays.default];}
       ];
+
+      extraHomePackages = pkgs: with pkgs; [omniroute deploy-rs];
     };
   };
   flake.darwinConfigurations = {
@@ -68,7 +73,7 @@ in {
       system = "aarch64-darwin";
       specialArgs = {inherit inputs;};
       modules = [self.darwinModules.aphroditeModule {nixpkgs = nixpkgsConfig;}];
-      extraHomePackages = pkgs: [pkgs.compact pkgs.opencode pkgs.tmuxinator pkgs.herdr];
+      extraHomePackages = pkgs: [pkgs.compact pkgs.opencode pkgs.tmuxinator pkgs.herdr pkgs.deploy-rs];
     };
   };
 }

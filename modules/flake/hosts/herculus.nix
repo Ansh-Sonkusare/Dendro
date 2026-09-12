@@ -97,6 +97,11 @@ in {
       "python-2.7.18.12"
     ];
 
+    users.users.hermes = {
+      extraGroups = [ "users" ];
+      linger = true;
+    };
+
     fonts.packages = with pkgs; [
       noto-fonts
       noto-fonts-cjk-sans
@@ -143,6 +148,7 @@ in {
       shell = pkgs.zsh;
       linger = true;
       isNormalUser = true;
+      homeMode = "0710";
       extraGroups = [
         "wheel"
         "podman"
