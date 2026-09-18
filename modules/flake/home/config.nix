@@ -14,6 +14,7 @@
         git
         claude-code
         openssl
+        jq
         gcc
         gh
         opencode

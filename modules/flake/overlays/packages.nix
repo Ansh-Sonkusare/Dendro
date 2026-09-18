@@ -45,7 +45,7 @@
         fetchFromGitHub,
         python3,
         pkg-config,
-        nodejs_20,
+        nodejs_22,
         stdenv,
       }:
         buildNpmPackage rec {
@@ -58,7 +58,7 @@
             hash = "sha256-rW0vy886zCVii1uIIj4Aq384EdXwbWwYfumwG3/0ETM=";
           };
 
-          nodejs = nodejs_20;
+          nodejs = nodejs_22;
 
           npmDepsHash = "sha256-RZuzSR+nSwMAtpR50TkVHq8u49AQks+TjMT7wduwrQw=";
 
