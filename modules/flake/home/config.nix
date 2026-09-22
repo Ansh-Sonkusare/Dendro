@@ -4,33 +4,36 @@
   ...
 }: {
   flake.homeModules = {
-    packages = {pkgs, ...}: {
-      home.packages = with pkgs; [
-        gnumake
-        wget
-        coreutils
-        python3
-        uv
-        git
-        claude-code
-        openssl
-        jq
-        gcc
-        gh
-        opencode
-        lua
-        alejandra
-        nil
-        unrar
-        fzf
-        bat
-        ripgrep
-        fira-code
-        fira-code-symbols
-        nushell
-        starship
-      ];
-    };
+    packages =
+      {pkgs, ...}: let
+        claude-code = self.packages.${pkgs.system}.claude-code;
+      in {
+        home.packages = with pkgs; [
+          gnumake
+          wget
+          coreutils
+          python3
+          uv
+          git
+          claude-code
+          openssl
+          jq
+          gcc
+          gh
+          opencode
+          lua
+          alejandra
+          nil
+          unrar
+          fzf
+          bat
+          ripgrep
+          fira-code
+          fira-code-symbols
+          nushell
+          starship
+        ];
+      };
 
     programs = {pkgs, ...}: {
       home.sessionVariables = {
