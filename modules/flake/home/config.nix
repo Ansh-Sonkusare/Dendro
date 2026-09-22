@@ -59,7 +59,7 @@
           key = "~/.ssh/id_ed25519.pub";
           signByDefault = true;
         };
-        extraConfig = {
+        settings = {
           gpg.format = "ssh";
         };
       };
@@ -99,6 +99,16 @@
           }
         ];
 
+        profileExtra = ''
+          source ~/.orbstack/shell/init.zsh 2>/dev/null || :
+          eval "$(/opt/homebrew/bin/brew shellenv)"
+
+          # npm global binaries (e.g. graft)
+          export PATH="$PATH:$HOME/.npm-global/bin"
+
+          # Headroom: aggressive token-compression mode
+          export HEADROOM_MODE="token"
+        '';
         initContent = ''
           # Use an explicit Nix store path so prompt init does not depend on per-user profile symlinks.
           if [ -x "${pkgs.starship}/bin/starship" ]; then

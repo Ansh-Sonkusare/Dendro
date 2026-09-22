@@ -27,14 +27,13 @@
           };
           inherit (final.unstable) nil;
         })
-        (final: prev: (optionalAttrs (prev.stdenv.system == "aarch64-darwin") {
+        (final: prev: (optionalAttrs (prev.stdenv.hostPlatform.system == "aarch64-darwin") {
           inherit (final.pkgs-x86) idris2 nix-index niv brave purescript;
         }))
         (final: prev: {
-          compact = (import inputs.nixpkgs-compact {inherit (prev) system;}).compact;
-          # midnight-wallet-cli = self.packages.${prev.system}.midnight-wallet-cli;
-          graft = self.packages.${prev.system}.graft;
-          omniroute = self.packages.${prev.system}.omniroute;
+          compact = (import inputs.nixpkgs-compact {inherit (prev.stdenv.hostPlatform) system;}).compact;
+          # midnight-wallet-cli = self.packages.${prev.stdenv.hostPlatform.system}.midnight-wallet-cli;
+          graft = self.packages.${prev.stdenv.hostPlatform.system}.graft;
         })
       ];
     };
@@ -49,7 +48,7 @@
         };
       };
       inherit (final.unstable) nil;
-      compact = (import inputs.nixpkgs-compact {inherit (prev) system;}).compact;
+      compact = (import inputs.nixpkgs-compact {inherit (prev.stdenv.hostPlatform) system;}).compact;
 
       graft = self.packages.${prev.system}.graft;
       herdr = self.packages.${prev.system}.herdr;

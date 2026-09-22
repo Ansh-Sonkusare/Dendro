@@ -22,6 +22,7 @@
     extraModule = lib.optional (extraFn != null) (
       {pkgs, ...}: {
         home-manager.users.teak.home.packages = extraFn pkgs;
+        home-manager.backupFileExtension = "bak";
       }
     );
   in
@@ -73,7 +74,8 @@ in {
       system = "aarch64-darwin";
       specialArgs = {inherit inputs;};
       modules = [self.darwinModules.aphroditeModule {nixpkgs = nixpkgsConfig;}];
-      extraHomePackages = pkgs: [pkgs.compact pkgs.opencode pkgs.tmuxinator pkgs.herdr pkgs.deploy-rs];
+      extraHomePackages = pkgs: with pkgs; [compact opencode tmuxinator alejandra herdr];
+
     };
   };
 }
