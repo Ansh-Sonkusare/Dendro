@@ -63,6 +63,7 @@ in {
         ../../herculus-disk-config.nix
         self.nixosModules.herculusModules
         self.nixosModules.hermesService
+        self.nixosModules.firecrawlService
         {nixpkgs.overlays = [self.overlays.default];}
       ];
 

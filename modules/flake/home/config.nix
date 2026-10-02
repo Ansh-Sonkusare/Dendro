@@ -222,6 +222,26 @@
       };
     };
 
+    omp = {pkgs, ...}: let
+      # Firecrawl config: FIRECRAWL_BASE_URL / FIRECRAWL_API_KEY env, or firecrawl.* in ~/.omp/agent/config.yml
+      deepi-research = pkgs.runCommand "omp-deepi-research" {
+        src = pkgs.fetchzip {
+          url = "https://git.freno.me/Mike/omp-deepi-research/archive/5e19b140da89db91c0f2f87ac2b0da513d7cf1b5.tar.gz";
+          sha256 = "0yx64s5ndy1wbm3412bhbivk6wxmrq1ykzfxvijfq7z8nn2ybbpc";
+        };
+        yaml = pkgs.fetchurl {
+          url = "https://registry.npmjs.org/yaml/-/yaml-2.9.0.tgz";
+          hash = "sha512-2AvhNX3mb8zd6Zy7INTtSpl1F15HW6Wnqj0srWlkKLcpYl/gMIMJiyuGq2KeI2YFxUPjdlB+3Lc10seMLtL4cA==";
+        };
+      } ''
+        cp -r $src $out && chmod -R u+w $out
+        mkdir -p $out/node_modules/yaml && tar -xzf $yaml -C $out/node_modules/yaml --strip-components=1
+      '';
+    in {
+      home.packages = [pkgs.omp];
+      home.file.".omp/agent/extensions/deepi-research".source = deepi-research;
+    };
+
     zoxide = {pkgs, ...}: {
       programs.zoxide = {
         enable = true;
