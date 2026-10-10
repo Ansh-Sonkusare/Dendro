@@ -9,7 +9,7 @@
 
 ## Naming
 
-- Machines: Greek gods (see `NAMING.md`). Current: ares (WSL workstation), athena (homeserver), aphrodite (Mac).
+- Machines: Greek gods. Current: ares (WSL workstation), athena (homeserver), aphrodite (Mac).
 - Users: `teak` on Linux hosts, `anshsonkusare` on macOS.
 - Module keys: camelCase for attrset keys (e.g. `aresModules`, `aphroditeModule`, `homeModules`).
 
