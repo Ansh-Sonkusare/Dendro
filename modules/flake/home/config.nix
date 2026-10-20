@@ -16,6 +16,7 @@
           uv
           git
           claude-code
+          codex
           openssl
           jq
           gcc
