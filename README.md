@@ -9,6 +9,7 @@ Dendritic Nix flake for my machines (NixOS, WSL, nix-darwin), built with flake-p
 | `aphrodite` | Mac |
 | `ares` | Main PC |
 | `herculus` | Homeserver |
+| `atlas` | Second server (Intel) |
 
 ## Layout
 

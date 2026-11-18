@@ -22,6 +22,19 @@
         };
       };
 
+      atlas = {
+        hostname = "atlas";
+        sshUser = "teak";
+        user = "root";
+        sudo = "sudo -u";
+        sshOpts = ["-A" "-p" "22"];
+        remoteBuild = true;
+
+        profiles.system = {
+          path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.atlas;
+        };
+      };
+
       ares = {
         hostname = "ares";
         sshUser = "teak";

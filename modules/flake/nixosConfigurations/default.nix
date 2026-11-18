@@ -69,6 +69,14 @@ in {
 
       extraHomePackages = pkgs: with pkgs; [omniroute deploy-rs];
     };
+    atlas = mkNixosConfig {
+      specialArgs = {inherit inputs;};
+      system = "x86_64-linux";
+      modules = [
+        self.nixosModules.atlasModules
+        {nixpkgs.overlays = [self.overlays.default];}
+      ];
+    };
   };
   flake.darwinConfigurations = {
     aphrodite = mkDarwinConfig {
