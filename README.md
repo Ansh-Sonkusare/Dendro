@@ -15,6 +15,7 @@ Dendritic Nix flake for my machines (NixOS, WSL, nix-darwin), built with flake-p
 
 - `flake.nix`: inputs; auto-imports everything under `modules/flake/`
 - `modules/flake/hosts/`: per-host system config
+- `modules/flake/services/`: reusable NixOS service modules (hermes, firecrawl)
 - `modules/flake/home/`: home-manager modules, shared by all hosts
 - `modules/flake/overlays/`: package overlays
 - `modules/flake/deploy.nix`: deploy-rs nodes

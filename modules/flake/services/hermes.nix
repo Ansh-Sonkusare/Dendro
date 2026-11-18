@@ -11,7 +11,7 @@
   }: {
     imports = [inputs.hermes-agent.nixosModules.default];
 
-    sops.defaultSopsFile = "${self}/secrets/hermes-env";
+    sops.defaultSopsFile = ../../../secrets/hermes-env;
     sops.defaultSopsFormat = "binary";
     sops.age.sshKeyPaths = ["/etc/ssh/ssh_host_ed25519_key"];
 
@@ -21,7 +21,7 @@
     };
 
     sops.secrets."email-env" = {
-      sopsFile = "${self}/secrets/email-env";
+      sopsFile = ../../../secrets/email-env;
       format = "dotenv";
       owner = "hermes";
       mode = "0400";

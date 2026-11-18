@@ -1,4 +1,4 @@
-{self, ...}: {
+{...}: {
   # Self-hosted Firecrawl (API on :3002) backed by a local SearXNG (:8888) for /v1/search.
   flake.nixosModules.firecrawlService = {
     lib,
@@ -58,7 +58,7 @@
     };
   in {
     sops.secrets."searx-env" = {
-      sopsFile = "${self}/secrets/searx-env";
+      sopsFile = ../../../secrets/searx-env;
       format = "dotenv";
     };
 
