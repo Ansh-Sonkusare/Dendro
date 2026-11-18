@@ -15,7 +15,8 @@ Dendritic Nix flake for my machines (NixOS, WSL, nix-darwin), built with flake-p
 
 - `flake.nix`: inputs; auto-imports everything under `modules/flake/`
 - `modules/flake/hosts/`: per-host config; each host imports the feature modules it wants
-- `modules/flake/nixos/`: shared NixOS feature modules (`base`, `server`, `k3s`, `podman`, `openssh`, `desktop`, ...)
+- `modules/flake/nixos/`: shared NixOS feature modules (`base`, `server`, `k3s`, `podman`, `docker`, `wsl`, `desktop`, ...)
+- `modules/flake/darwin/`: nix-darwin feature modules (`nix`, `homebrew`, `homeManager`)
 - `modules/flake/services/`: self-hosted service modules (hermes, firecrawl)
 - `modules/flake/hardware/`: per-machine hardware and disk layout
 - `modules/flake/home/`: home-manager modules, one per program, shared by all hosts
