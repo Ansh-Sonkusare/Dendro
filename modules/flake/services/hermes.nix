@@ -30,7 +30,7 @@
     services.hermes-agent = {
       enable = true;
       extraPackages = [pkgs.git pkgs.gh];
-      extraDependencyGroups = ["messaging" "supermemory"];
+      extraDependencyGroups = ["messaging"];
       addToSystemPackages = true;
 
       settings.model = {
