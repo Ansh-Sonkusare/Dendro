@@ -1,10 +1,5 @@
-{
-  self,
-  inputs,
-  ...
-}: {
+{inputs, ...}: {
   flake.nixosModules.herculusHardware = {
-    pkgs,
     lib,
     modulesPath,
     config,
@@ -12,6 +7,7 @@
   }: {
     imports = [
       (modulesPath + "/installer/scan/not-detected.nix")
+      inputs.disko.nixosModules.disko
     ];
 
     boot.initrd.availableKernelModules = ["xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" "sd_mod"];
@@ -32,12 +28,23 @@
 
     swapDevices = [];
 
-    # Load nvidia driver on boot
+    disko.devices.disk.main = {
+      type = "disk";
+      device = "/dev/disk/by-id/ata-WDC_WD10SPZX-21Z10T0_WD-WXE1AC8ALV5R";
+      content = {
+        type = "gpt";
+        partitions.data = {
+          size = "100%";
+          content = {
+            type = "filesystem";
+            format = "ext4";
+            mountpoint = "/hdd";
+          };
+        };
+      };
+    };
+
     services.xserver.videoDrivers = ["nvidia"];
-    # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
-    # (the default) this is the recommended approach. When using systemd-networkd it's
-    # still possible to use this option, but it's recommended to use it in conjunction
-    # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
     networking.useDHCP = lib.mkDefault true;
     networking.interfaces.enp3s0.useDHCP = lib.mkDefault true;
     networking.interfaces.wlp4s0.useDHCP = lib.mkDefault true;

@@ -2,30 +2,22 @@
   self,
   inputs,
   ...
-}: let
-  aresUsername = "teak";
-  aresHomeDirectory = "/home/${aresUsername}";
-in {
+}: {
   flake.homeHosts.ares = {
-    username = aresUsername;
-    homeDirectory = aresHomeDirectory;
+    username = "teak";
+    homeDirectory = "/home/teak";
     system = "x86_64-linux";
   };
 
-  flake.nixosModules.aresModules = {
-    pkgs,
-    lib,
-    ...
-  }: {
-    imports = [
-      inputs.home-manager.nixosModules.default
-      inputs.vscode-server.nixosModules.default
+  flake.nixosModules.aresModules = {pkgs, ...}: {
+    imports = with self.nixosModules; [
       inputs.nixos-wsl.nixosModules.default
+      base
+      fonts
+      homeManager
     ];
 
-    nix.settings.experimental-features = ["nix-command" "flakes"];
-    services.vscode-server.enable = true;
-
+    networking.hostName = "ares";
     system.stateVersion = "26.05";
 
     programs.nix-index.enable = true;
@@ -38,20 +30,7 @@ in {
       pkgs.graphite-cli
       pkgs.starship
     ];
-    nixpkgs.config.allowUnfree = true;
-    fonts.packages = with pkgs; [
-      noto-fonts
-      noto-fonts-cjk-sans
-      noto-fonts-color-emoji
-      liberation_ttf
-      fira-code
-      fira-code-symbols
-      mplus-outline-fonts.githubRelease
-      dina-font
-      proggyfonts
-    ];
 
-    # Prisma:
     environment.variables = {
       PRISMA_QUERY_ENGINE_LIBRARY = "${pkgs.prisma-engines_6}/lib/libquery_engine.node";
       PRISMA_QUERY_ENGINE_BINARY = "${pkgs.prisma-engines_6}/bin/query-engine";
@@ -59,17 +38,12 @@ in {
       PRISMA_TMP_DIR = "/tmp/prisma"; # Ensure this directory is writable
     };
 
-    networking.hostName = "ares";
-    programs.zsh.enable = true;
-    programs.nix-ld.enable = true;
-
     virtualisation.docker = {
       enable = true;
       enableOnBoot = true;
       autoPrune.enable = true;
     };
 
-    services.tailscale.enable = true;
     systemd.user = {
       paths.vscode-remote-workaround = {
         wantedBy = ["default.target"];
@@ -94,7 +68,7 @@ in {
       startMenuLaunchers = true;
 
       docker-desktop.enable = false;
-      defaultUser = aresUsername;
+      defaultUser = "teak";
       extraBin = with pkgs; [
         {src = "${coreutils}/bin/mkdir";}
         {src = "${coreutils}/bin/cat";}
@@ -106,36 +80,14 @@ in {
       ];
     };
 
-    users.users.${aresUsername} = {
+    users.users.teak = {
       isNormalUser = true;
-      home = aresHomeDirectory;
-      description = "${aresUsername} user";
+      home = "/home/teak";
+      description = "teak user";
       shell = pkgs.zsh;
       extraGroups = ["wheel" "docker"];
     };
 
-    home-manager = {
-      useGlobalPkgs = true;
-      useUserPackages = true;
-
-      extraSpecialArgs = {
-        inherit inputs;
-      };
-
-      users.${aresUsername} = {
-        imports =
-          lib.attrValues self.homeModules;
-
-        home = {
-          username = aresUsername;
-          homeDirectory = aresHomeDirectory;
-          stateVersion = "26.05";
-          sessionPath = ["$HOME/.local/bin"];
-        };
-
-        programs.home-manager.enable = true;
-        services.ssh-agent.enable = true;
-      };
-    };
+    home-manager.users.teak.home.sessionPath = ["$HOME/.local/bin"];
   };
 }

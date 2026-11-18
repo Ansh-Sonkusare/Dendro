@@ -25,7 +25,6 @@
 in {
   imports = [
     inputs.home-manager.flakeModules.home-manager
-    ./config.nix
   ];
 
   options.flake.homeHosts = lib.mkOption {

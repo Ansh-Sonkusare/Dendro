@@ -15,6 +15,11 @@
     sops.defaultSopsFormat = "binary";
     sops.age.sshKeyPaths = ["/etc/ssh/ssh_host_ed25519_key"];
 
+    users.users.hermes = {
+      extraGroups = ["users"];
+      linger = true;
+    };
+
     sops.secrets."hermes-env" = {
       owner = "hermes";
       mode = "0400";

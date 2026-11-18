@@ -58,12 +58,7 @@ in {
       specialArgs = {inherit inputs;};
       system = "x86_64-linux";
       modules = [
-        inputs.disko.nixosModules.disko
-        inputs.sops-nix.nixosModules.sops
-        ../../herculus-disk-config.nix
         self.nixosModules.herculusModules
-        self.nixosModules.hermesService
-        self.nixosModules.firecrawlService
         {nixpkgs.overlays = [self.overlays.default];}
       ];
 
@@ -84,7 +79,6 @@ in {
       specialArgs = {inherit inputs;};
       modules = [self.darwinModules.aphroditeModule {nixpkgs = nixpkgsConfig;}];
       extraHomePackages = pkgs: with pkgs; [compact tmuxinator alejandra herdr];
-
     };
   };
 }
