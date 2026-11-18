@@ -1,0 +1,17 @@
+{
+  "$schema": "https://raw.githubusercontent.com/can1357/oh-my-pi/main/packages/coding-agent/src/config/mcp-schema.json",
+  "mcpServers": {
+    "headroom": {
+      "enabled": false,
+      "type": "stdio",
+      "command": "/Users/anshsonkusare/.local/bin/headroom",
+      "args": ["mcp", "serve"]
+    },
+    "serena": {
+      "enabled": false,
+      "type": "stdio",
+      "command": "uvx",
+      "args": ["--from", "serena-agent", "serena", "start-mcp-server"]
+    }
+  }
+}

@@ -4,37 +4,39 @@
   ...
 }: {
   flake.homeModules = {
-    packages =
-      {pkgs, ...}: let
-        claude-code = self.packages.${pkgs.system}.claude-code;
-      in {
-        home.packages = with pkgs; [
-          gnumake
-          wget
-          coreutils
-          python3
-          uv
-          git
-          claude-code
-          codex
-          openssl
-          jq
-          gcc
-          gh
-          opencode
-          lua
-          alejandra
-          nil
-          unrar
-          fzf
-          bat
-          ripgrep
-          fira-code
-          fira-code-symbols
-          nushell
-          starship
-        ];
-      };
+    packages = {pkgs, ...}: let
+      claude-code = self.packages.${pkgs.system}.claude-code;
+    in {
+      home.packages = with pkgs; [
+        gnumake
+        wget
+        coreutils
+        python3
+        uv
+        git
+        claude-code
+        codex
+        openssl
+        jq
+        gcc
+        gh
+        # ponytail: nixpkgs opencode node_modules hash is stale on darwin; drop when nixpkgs fixes it
+        (opencode.overrideAttrs (prev: {
+          node_modules = prev.node_modules.overrideAttrs {outputHash = "sha256-dIveiaiPFGSItwLyeMuPDxTE9gpvvnlTCB/+nG24qCc=";};
+        }))
+        lua
+        alejandra
+        nil
+        unrar
+        fzf
+        bat
+        ripgrep
+        fira-code
+        fira-code-symbols
+        nushell
+        starship
+      ];
+    };
 
     programs = {pkgs, ...}: {
       home.sessionVariables = {
@@ -223,24 +225,27 @@
       };
     };
 
-    omp = {pkgs, ...}: let
-      # Firecrawl config: FIRECRAWL_BASE_URL / FIRECRAWL_API_KEY env, or firecrawl.* in ~/.omp/agent/config.yml
-      deepi-research = pkgs.runCommand "omp-deepi-research" {
-        src = pkgs.fetchzip {
-          url = "https://git.freno.me/Mike/omp-deepi-research/archive/5e19b140da89db91c0f2f87ac2b0da513d7cf1b5.tar.gz";
-          sha256 = "0yx64s5ndy1wbm3412bhbivk6wxmrq1ykzfxvijfq7z8nn2ybbpc";
-        };
-        yaml = pkgs.fetchurl {
-          url = "https://registry.npmjs.org/yaml/-/yaml-2.9.0.tgz";
-          hash = "sha512-2AvhNX3mb8zd6Zy7INTtSpl1F15HW6Wnqj0srWlkKLcpYl/gMIMJiyuGq2KeI2YFxUPjdlB+3Lc10seMLtL4cA==";
-        };
-      } ''
-        cp -r $src $out && chmod -R u+w $out
-        mkdir -p $out/node_modules/yaml && tar -xzf $yaml -C $out/node_modules/yaml --strip-components=1
-      '';
-    in {
-      home.packages = [pkgs.omp];
-      home.file.".omp/agent/extensions/deepi-research".source = deepi-research;
+    omp = {pkgs, ...}: {
+      # ponytail: drop this override once nixpkgs catches up to 18.16.0
+      home.packages = [
+        (pkgs.omp.overrideAttrs (final: prev: {
+          version = "18.16.0";
+          src = pkgs.fetchFromGitHub {
+            owner = "can1357";
+            repo = "oh-my-pi";
+            tag = "v${final.version}";
+            hash = "sha256-hnb0yuRuuBY/DK+bLUNKFQkmBfPfAN67xOrycDL6OmA=";
+          };
+          cargoDeps = pkgs.rustPlatform.fetchCargoVendor {
+            inherit (final) src;
+            hash = "sha256-YSPBniKcmTXhcI5A8tO90AyrBkY3J2PYlmVlDDnJlHU=";
+          };
+          node_modules = prev.node_modules.overrideAttrs {
+            inherit (final) version src;
+            outputHash = "sha256-u8qDMkrSWO/OGLmQhqq9Cf/vQCYWGxTIU7y4VMFxTIU=";
+          };
+        }))
+      ];
     };
 
     zoxide = {pkgs, ...}: {
